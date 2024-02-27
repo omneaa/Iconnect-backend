@@ -1,15 +1,14 @@
 const mongoose=require('mongoose');
 const PostSchema=new mongoose.Schema({
     description:{
-        type:String,
-        default:"null"
+     type:String,
     },
     image:{
-        type:String,
-        default:"null"
+    type:String,
+        
     },
      UserId:{
-        type:String
+     type:String
      }
 });
 const Post=mongoose.model('Post',PostSchema);

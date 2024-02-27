@@ -9,5 +9,6 @@ module.exports = (router, passport) => {
 	router.get('/user/:Id',currentUser);
 	router.delete('/user',passport.authenticate('jwt', { session: false }),DeleteUser);
 	router.put('./user',passport.authenticate('jwt', { session: false }),EditUser);
+	
 	return router;
 };

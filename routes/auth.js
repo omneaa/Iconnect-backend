@@ -3,6 +3,7 @@ const {
 	login,
 	forgotPassword,
 	resetPassword,
+	logout
 	
 } = require('../controllers/AuthController');
 
@@ -15,6 +16,7 @@ module.exports = (router, passport) => {
 	router.post('/login', validateResource(loginSchema), login);
 	router.post('/forgot-password', validateResource(forgotPasswordSchema), forgotPassword);
 	router.post('/reset-password/:token', validateResource(resetPasswordSchema), resetPassword)
+	router.post('/logout/:token',logout);
 	return router;
 };
 

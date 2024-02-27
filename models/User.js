@@ -36,16 +36,10 @@ const UserSchema = new mongoose.Schema({
 		default: 0	
 	},
 	profilePicture: {
-		
-		 type: String,
-	 default:'null'
-		
+		type: String,
 	},
 	coverPicture: {
 		type: String,
-		default:'null'
-			
-
 	},
 	resetToken: String,
 	resetTokenExpiration: Date,

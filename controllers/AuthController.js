@@ -127,7 +127,7 @@ const resetPassword = async (req, res) => {
 	if (!validToken) {
 		return ApiResponse.error(res, 404, 'Invalid or expired token');
 	}
-
+    
 	user.password = await bcrypt.hash(newPassword, 10);
 	user.resetToken = undefined;
 	user.resetTokenExpiration = undefined;
@@ -140,7 +140,7 @@ const resetPassword = async (req, res) => {
 	
 
 const logout = async (req, res) => {
-	//
+
 };
 
 module.exports = { register, login, forgotPassword, resetPassword, logout };
