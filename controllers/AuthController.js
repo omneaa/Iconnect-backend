@@ -34,14 +34,12 @@ const register = async (req, res) => {
 					gender: user.gender,
 					phone: user.phone,
 					id:user.id,
+					profilePicture:"https://res.cloudinary.com/dlcrve4vm/image/upload/v1709451005/CloudinaryDemo/mpspjraezkrvyfby8uvq.webp",
+					coverPicture:"https://res.cloudinary.com/dlcrve4vm/image/upload/v1709758933/CloudinaryDemo/w0xmbgz3nj4tu8fyuwam.jpg",
 					token: issueToken(user),
 				};
 
-				return ApiResponse.success(
-					res,
-					responseData,
-					201,
-					'You are registered successfully'
+				return ApiResponse.success(res,responseData,201,'You are registered successfully'
 				);
 			}
 		}
@@ -68,9 +66,10 @@ const login = async (req, res) => {
 			lastname: user.lastname,
 			username: user.username,
 			email: user.email,
-			password: user.password,
 			gender: user.gender,
 			phone: user.phone,
+			profilePicture:user.profilePicture,
+			coverPicture:user.coverPicture,
 			id:user.id,
 		};
 
@@ -135,12 +134,6 @@ const resetPassword = async (req, res) => {
 
 	return ApiResponse.success(res, [], 200, 'Password reset successful');
 }
-
-
-	
-
 const logout = async (req, res) => {
-
 };
-
 module.exports = { register, login, forgotPassword, resetPassword, logout };

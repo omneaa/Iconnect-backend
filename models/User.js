@@ -33,13 +33,16 @@ const UserSchema = new mongoose.Schema({
 	},
 	friendsNumber:{
 		type: Number,
-		default: 0	
+		default: 0 ,
 	},
 	profilePicture: {
 		type: String,
+		default:"https://res.cloudinary.com/dlcrve4vm/image/upload/v1709451005/CloudinaryDemo/mpspjraezkrvyfby8uvq.webp",
+
 	},
 	coverPicture: {
 		type: String,
+		default:"https://res.cloudinary.com/dlcrve4vm/image/upload/v1709758933/CloudinaryDemo/w0xmbgz3nj4tu8fyuwam.jpg",
 	},
 	resetToken: String,
 	resetTokenExpiration: Date,
