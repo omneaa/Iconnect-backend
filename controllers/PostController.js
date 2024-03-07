@@ -90,6 +90,19 @@ const updatePost=async(req,res)=>{
     }
 
 }
+
+const specificPost=async(req,res)=>{
+    try{
+const post=await Post.findById(req.params.PostId,{"__v":false,"UserId":false});
+return res.status(200).json({ message: "operation successful", data:post});
+    }
+    catch(err){
+        return ApiResponse.error(res, 500, 'Internal Server Error');
+    }
+}
+
+
+
 module.exports={
-    createPost,deletePost,userPosts,updatePost
+    createPost,deletePost,userPosts,updatePost,specificPost
 };

@@ -1,5 +1,5 @@
 const{
-    createPost,deletePost,userPosts,updatePost
+    createPost,deletePost,userPosts,updatePost,specificPost
 }=require('../controllers/PostController');
 const validateResource = require('../middlewares/validateResource');
 require('dotenv').config();
@@ -11,6 +11,7 @@ module.exports = (router,passport) => {
      router.put('/updatePost/:PostId/:UserId',passport.authenticate('jwt', { session: false }),upload.single('image'),updatePost);
      router.delete('/deletePost/:PostId/:UserId',passport.authenticate('jwt', { session: false }),deletePost);
      router.get('/userPosts/:UserId',userPosts);
+     router.get('/Post/:PostId',specificPost);
 
 	return router;
 };
