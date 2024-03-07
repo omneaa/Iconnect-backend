@@ -54,6 +54,6 @@ Posts API's
  ------------------------------------------------
  get('/userPosts/:UserId')  You should put the input data in Headers and this is the required data: X-Access-Token = token 
  ------------------------------------------------
- get('/Post/:Post')
+ get('/Post/:PostId')
  ------------------------------------------------
  
