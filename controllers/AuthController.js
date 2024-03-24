@@ -136,9 +136,8 @@ const resetPassword = async (req, res) => {
 }
 const logout = async (req, res) => {
 	//client will delete the jwt
-	//return ApiResponse.success(res, [], 200, 'loged out successful');
-	console.log("ok");
-	return res.status(200).json({ message: "okaaaaay", data:"null"});
+	return ApiResponse.success(res, [], 200, 'loged out successful');
+	
 	
 }
 module.exports = { register, login, forgotPassword, resetPassword, logout };
