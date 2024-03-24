@@ -16,7 +16,7 @@ module.exports = (router, passport) => {
 	router.post('/login', validateResource(loginSchema), login);
 	router.post('/forgot-password', validateResource(forgotPasswordSchema), forgotPassword);
 	router.post('/reset-password/:token', validateResource(resetPasswordSchema), resetPassword)
-	router.post('/logout/:token',logout);
+	router.post('/logout',passport.authenticate('jwt', { session: false }),logout);
 	return router;
 };
 

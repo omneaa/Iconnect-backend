@@ -9,7 +9,10 @@ const PostSchema=new mongoose.Schema({
     },
      UserId:{
      type:String
-     }
+     },
+     comments:[{
+type:mongoose.Schema.Types.ObjectId
+     }]
      
 });
 const Post=mongoose.model('Post',PostSchema);

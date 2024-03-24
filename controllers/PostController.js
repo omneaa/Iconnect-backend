@@ -5,6 +5,7 @@ const { storage } = require('../storage/storage');
 const multer = require('multer');
 const upload = multer({ storage });
 const {mongodb,ObjectId} = require('mongodb');
+const { authorize } = require('passport');
 const createPost= async(req,res)=>{
     
     try{
@@ -102,7 +103,86 @@ return res.status(200).json({ message: "operation successful", data:post});
 }
 
 
+const deleteComment=async(req,res)=>{
+try{
+
+    }
+    catch(err){
+        return ApiResponse.error(res, 500, 'Internal Server Error');
+    }
+}
+
+const editComment=async(req,res)=>{
+    try{
+    
+        }
+        catch(err){
+            return ApiResponse.error(res, 500, 'Internal Server Error');
+        }
+    }
+
+
+
+  const addComment=async(req,res)=>{
+        try{
+        const {comment}=req.body;
+        let Comments=await Post.findAndModify({
+            UserId:req.params.UserID,
+            comments:{
+                authorName: req.body.author,
+                comment:req.body.comment,
+                authorID:req.params.authorID,
+            }
+            
+        })
+        return res.status(200).json({ message: "comment Added", data:Comments});
+            }
+            catch(err){
+                return ApiResponse.error(res, 500, 'Internal Server Error');
+            }
+        }
+
+        const like=async(req,res)=>{
+            try{
+            
+                }
+                catch(err){
+                    return ApiResponse.error(res, 500, 'Internal Server Error');
+                }
+            }
+
+            const dislike=async(req,res)=>{
+                try{
+                
+                    }
+                    catch(err){
+                        return ApiResponse.error(res, 500, 'Internal Server Error');
+                    }
+                }
+
+
+                const allComments=async(req,res)=>{
+                    try{
+                    
+                        }
+                        catch(err){
+                            return ApiResponse.error(res, 500, 'Internal Server Error');
+                        }
+                    }
+
+
+                    const allReacts=async(req,res)=>{
+                        try{
+                        
+                            }
+                            catch(err){
+                                return ApiResponse.error(res, 500, 'Internal Server Error');
+                            }
+                        }
+                
+            
+
 
 module.exports={
-    createPost,deletePost,userPosts,updatePost,specificPost
+    createPost,deletePost,userPosts,updatePost,specificPost,addComment
 };
