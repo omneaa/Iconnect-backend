@@ -158,36 +158,33 @@ const editComment=async(req,res)=>{
 
         };
 
-        const like=async(req,res)=>{
-            try{
+        // const like=async(req,res)=>{
+        //     try{
             
-                }
-                catch(err){
-                    return ApiResponse.error(res, 500, 'Internal Server Error');
-                }
-            };
+        //         }
+        //         catch(err){
+        //             return ApiResponse.error(res, 500, 'Internal Server Error');
+        //         }
+        //     };
 
-            const dislike=async(req,res)=>{
-                try{
+        //     const dislike=async(req,res)=>{
+        //         try{
                 
-                    }
-                    catch(err){
-                        return ApiResponse.error(res, 500, 'Internal Server Error');
-                    }
-                };
+        //             }
+        //             catch(err){
+        //                 return ApiResponse.error(res, 500, 'Internal Server Error');
+        //             }
+        //         };
 
 
-               
-
-
-                    const allReacts=async(req,res)=>{
-                        try{
+        //             const allReacts=async(req,res)=>{
+        //                 try{
                         
-                            }
-                            catch(err){
-                                return ApiResponse.error(res, 500, 'Internal Server Error');
-                            }
-                        };
+        //                     }
+        //                     catch(err){
+        //                         return ApiResponse.error(res, 500, 'Internal Server Error');
+        //                     }
+        //                 };
                 
             
 
