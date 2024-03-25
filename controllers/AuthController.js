@@ -136,7 +136,7 @@ const resetPassword = async (req, res) => {
 }
 const logout = async (req, res) => {
 	//client will delete the jwt
-	return ApiResponse.success(res, [], 200,'loged out successful');
+	return ApiResponse.success(res, "null", 200,'loged out successful');
 	
 	
 }

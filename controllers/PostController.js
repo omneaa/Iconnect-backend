@@ -6,6 +6,7 @@ const multer = require('multer');
 const upload = multer({ storage });
 const {mongodb,ObjectId} = require('mongodb');
 const { authorize } = require('passport');
+
 const createPost= async(req,res)=>{
     
     try{
@@ -31,7 +32,7 @@ else{
     {
         return ApiResponse.error(res, 500, 'Internal Server Error');
     }
-}
+};
 
 
 const deletePost=async(req,res)=>{
@@ -50,7 +51,7 @@ const deletePost=async(req,res)=>{
     catch(err){
         return ApiResponse.error(res, 500, "Internal Server Error");
     }
-}
+};
 
 
 const userPosts=async(req,res)=>{
@@ -90,7 +91,7 @@ const updatePost=async(req,res)=>{
         return ApiResponse.error(res, 500, 'Internal Server Error');
     }
 
-}
+};
 
 const specificPost=async(req,res)=>{
     try{
@@ -100,47 +101,62 @@ return res.status(200).json({ message: "operation successful", data:post});
     catch(err){
         return ApiResponse.error(res, 500, 'Internal Server Error');
     }
-}
+};
 
 
 const deleteComment=async(req,res)=>{
-try{
-
-    }
-    catch(err){
-        return ApiResponse.error(res, 500, 'Internal Server Error');
-    }
-}
+    try{
+       
+        console.log(req.params.commentID);
+        const { postID, commentID } = req.params;
+        const updatedPost = await Post.findOneAndUpdate(
+            { _id: postID, "comments._id": commentID }, 
+            { $pull: { comments: { _id: commentID } } }, 
+            { new: true,"__v":false}
+          );
+         return res.status(200).json({ message: "comment deleted", data:updatedPost});
+             }
+             catch(err){
+                console.error(err);
+                 return ApiResponse.error(res, 500, 'Internal Server Error');
+             }
+};
 
 const editComment=async(req,res)=>{
     try{
-    
-        }
-        catch(err){
-            return ApiResponse.error(res, 500, 'Internal Server Error');
-        }
-    }
+       
+        const {comment}=req.body;
+        const Usercomment=await Post.findOneAndUpdate({'comments._id':req.params.commentID},
+        { $set:{'comments.$.comment':comment}},{new:true,"__v":false});
+        
+         return res.status(200).json({ message: "comment edited", data:Usercomment});
+             }
+             catch(err){
+                 return ApiResponse.error(res, 500, 'Internal Server Error');
+             }
+     
+    };
 
 
 
   const addComment=async(req,res)=>{
+
         try{
-        const {comment}=req.body;
-        let Comments=await Post.findAndModify({
-            UserId:req.params.UserID,
-            comments:{
-                authorName: req.body.author,
-                comment:req.body.comment,
-                authorID:req.params.authorID,
-            }
-            
-        })
-        return res.status(200).json({ message: "comment Added", data:Comments});
+       const newComment={
+        comment:req.body.comment,
+        authorID:req.params.authorID,
+       };
+       const {comment}=req.body;
+       const Usercomment=await Post.findByIdAndUpdate(req.params.postID,{$push:{ comments:newComment}},{new:true,"__v":false});
+       
+        return res.status(200).json({ message: "comment Added", data:Usercomment});
             }
             catch(err){
                 return ApiResponse.error(res, 500, 'Internal Server Error');
             }
-        }
+    
+
+        };
 
         const like=async(req,res)=>{
             try{
@@ -149,7 +165,7 @@ const editComment=async(req,res)=>{
                 catch(err){
                     return ApiResponse.error(res, 500, 'Internal Server Error');
                 }
-            }
+            };
 
             const dislike=async(req,res)=>{
                 try{
@@ -158,17 +174,10 @@ const editComment=async(req,res)=>{
                     catch(err){
                         return ApiResponse.error(res, 500, 'Internal Server Error');
                     }
-                }
+                };
 
 
-                const allComments=async(req,res)=>{
-                    try{
-                    
-                        }
-                        catch(err){
-                            return ApiResponse.error(res, 500, 'Internal Server Error');
-                        }
-                    }
+               
 
 
                     const allReacts=async(req,res)=>{
@@ -178,11 +187,11 @@ const editComment=async(req,res)=>{
                             catch(err){
                                 return ApiResponse.error(res, 500, 'Internal Server Error');
                             }
-                        }
+                        };
                 
             
 
 
 module.exports={
-    createPost,deletePost,userPosts,updatePost,specificPost,addComment
+    createPost,deletePost,userPosts,updatePost,specificPost,addComment,editComment,deleteComment
 };

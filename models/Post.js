@@ -1,4 +1,31 @@
 const mongoose=require('mongoose');
+  const CommentSchema=new mongoose.Schema({
+     authorID:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+     },
+     comment: {
+      type: String,
+      // ref: 'User',
+      required: true ,
+    },
+       
+  });
+
+  const ReactSchema=new mongoose.Schema({
+    reacterID:{
+     type: mongoose.Schema.Types.ObjectId,
+     ref: 'User',
+     required: true,
+    },
+    reactType: {
+     type:Number,
+     default:0
+   },
+      
+ });
+
 const PostSchema=new mongoose.Schema({
     description:{
      type:String,
@@ -10,9 +37,9 @@ const PostSchema=new mongoose.Schema({
      UserId:{
      type:String
      },
-     comments:[{
-type:mongoose.Schema.Types.ObjectId
-     }]
+     
+     comments: [CommentSchema],
+     reacts:[ReactSchema]
      
 });
 const Post=mongoose.model('Post',PostSchema);

@@ -17,10 +17,9 @@ module.exports = (app) => {
     app.use('/', userRoutes);
     
 };
-module.exports= (app) =>{
+module.exports= (app) => {
     app.use('/',postRoutes);
-}
-
+};
 
 
 
