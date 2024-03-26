@@ -21,7 +21,7 @@ const mongoose=require('mongoose');
     },
     reactType: {
      type:Number,
-     default:0
+     
    },
       
  });

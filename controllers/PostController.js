@@ -7,6 +7,8 @@ const upload = multer({ storage });
 const {mongodb,ObjectId} = require('mongodb');
 const { authorize } = require('passport');
 
+
+
 const createPost= async(req,res)=>{
     
     try{
@@ -34,7 +36,7 @@ else{
     }
 };
 
-
+/*====================================================*/
 const deletePost=async(req,res)=>{
     try{
         
@@ -53,7 +55,7 @@ const deletePost=async(req,res)=>{
     }
 };
 
-
+/*====================================================*/
 const userPosts=async(req,res)=>{
     try{
 const posts=await Post.find({UserId: `${req.params.UserId}`},{"__v":false,"UserId":false});
@@ -63,6 +65,7 @@ return res.status(200).json({ message: "operation successful", data:posts});
         return ApiResponse.error(res, 500, 'Internal Server Error');
     }
 }
+/*====================================================*/
 const updatePost=async(req,res)=>{
     try{
         let validate=await Post.findById(req.params.PostId);
@@ -92,7 +95,7 @@ const updatePost=async(req,res)=>{
     }
 
 };
-
+/*====================================================*/
 const specificPost=async(req,res)=>{
     try{
 const post=await Post.findById(req.params.PostId,{"__v":false,"UserId":false});
@@ -103,7 +106,7 @@ return res.status(200).json({ message: "operation successful", data:post});
     }
 };
 
-
+/*====================================================*/
 const deleteComment=async(req,res)=>{
     try{
        
@@ -121,7 +124,7 @@ const deleteComment=async(req,res)=>{
                  return ApiResponse.error(res, 500, 'Internal Server Error');
              }
 };
-
+/*====================================================*/
 const editComment=async(req,res)=>{
     try{
        
@@ -138,7 +141,7 @@ const editComment=async(req,res)=>{
     };
 
 
-
+/*====================================================*/
   const addComment=async(req,res)=>{
 
         try{
@@ -158,38 +161,99 @@ const editComment=async(req,res)=>{
 
         };
 
-        
-        // const like=async(req,res)=>{
-        //     try{
-            
-        //         }
-        //         catch(err){
-        //             return ApiResponse.error(res, 500, 'Internal Server Error');
-        //         }
-        //     };
-
-        //     const dislike=async(req,res)=>{
-        //         try{
+        /*====================================================*/
+        const like=async(req,res)=>{
+            try{
+            const {postID,reacterID}=req.params;
+            const newReact={
+                reacterID,
+                reactType:1
+            }
+            let react = await Post.findOne(
+                { _id: postID, "reacts.reacterID": reacterID });
+                if(react===null)
+                {
+                react =await Post.findByIdAndUpdate(req.params.postID,{$push:{ reacts:newReact}},{new:true,"__v":false});
+                }
                 
-        //             }
-        //             catch(err){
-        //                 return ApiResponse.error(res, 500, 'Internal Server Error');
-        //             }
-        //         };
+               else if(react.reacts[0].reactType===1)
+               {
+                react  = await Post.findOneAndUpdate(
+                    { _id: postID, "reacts.reacterID": reacterID }, 
+                    { $pull: { reacts: { reacterID: reacterID } } }, 
+                    { new: true,"__v":false}
+                  );
+               }
+               else if(react.reacts[0].reactType===-1)
+               {
+                react  = await Post.findOneAndUpdate(
+                    { _id: postID, "reacts.reacterID": reacterID }, 
+                    { $set:{'reacts.$.reactType':1}},{ new: true,"__v":false}
+                  );
+               }
+
+                return res.status(200).json({ message: "like react", data:react});
+                }
+                catch(err){
+                    return ApiResponse.error(res, 500, 'Internal Server Error');
+                }
+            };
 
 
-        //             const allReacts=async(req,res)=>{
-        //                 try{
+/*====================================================*/
+            const dislike=async(req,res)=>{
+                try{
+                    const {postID,reacterID}=req.params;
+                    const newReact={
+                        reacterID,
+                        reactType:-1
+                    }
+                    let react = await Post.findOne(
+                        { _id: postID, "reacts.reacterID": reacterID });
+                        if(react===null)
+                        {
+                        react =await Post.findByIdAndUpdate(req.params.postID,{$push:{ reacts:newReact}},{new:true,"__v":false});
+                        }
                         
-        //                     }
-        //                     catch(err){
-        //                         return ApiResponse.error(res, 500, 'Internal Server Error');
-        //                     }
-        //                 };
+                       else if(react.reacts[0].reactType===-1)
+                       {
+                        react  = await Post.findOneAndUpdate(
+                            { _id: postID, "reacts.reacterID": reacterID }, 
+                            { $pull: { reacts: { reacterID: reacterID } } }, 
+                            { new: true,"__v":false}
+                          );
+                       }
+                       else if(react.reacts[0].reactType===1)
+                       {
+                        react  = await Post.findOneAndUpdate(
+                            { _id: postID, "reacts.reacterID": reacterID }, 
+                            { $set:{'reacts.$.reactType':-1}},{ new: true,"__v":false}
+                          );
+                       }
+        
+                        return res.status(200).json({ message: "dislike react", data:react});
+                        }
+                        catch(err){
+                            return ApiResponse.error(res, 500, 'Internal Server Error');
+                        }
+                };
+
+/*====================================================*/
+                    const allReacts=async(req,res)=>{
+                        try{
+                        const {postID}=req.params;
+                        const react = await Post.findOne(
+                            { _id: postID});
+                            return res.status(200).json({ message: "All reacts", data:react.reacts});
+                        }
+                            catch(err){
+                                return ApiResponse.error(res, 500, 'Internal Server Error');
+                            }
+                        };
                 
             
 
 
 module.exports={
-    createPost,deletePost,userPosts,updatePost,specificPost,addComment,editComment,deleteComment
+    createPost,deletePost,userPosts,updatePost,specificPost,addComment,editComment,deleteComment,like,dislike,allReacts
 };

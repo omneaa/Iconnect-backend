@@ -1,5 +1,5 @@
 const{
-    createPost,deletePost,userPosts,updatePost,specificPost,addComment,editComment,deleteComment
+    createPost,deletePost,userPosts,updatePost,specificPost,addComment,editComment,deleteComment,like,dislike,allReacts
 }=require('../controllers/PostController');
 const validateResource = require('../middlewares/validateResource');
 require('dotenv').config();
@@ -12,6 +12,9 @@ const bodyParser = require('body-parser');
 module.exports = (router,passport) => {
     router.use(bodyParser.json());
 	 router.post('/addPost',passport.authenticate('jwt', { session: false }),upload.single('image'),createPost);
+     router.post('/like/:postID/:reacterID',passport.authenticate('jwt', { session: false }),like);
+     router.post('/dislike/:postID/:reacterID',passport.authenticate('jwt', { session: false }),dislike);
+     router.get('/allReacts/:postID',passport.authenticate('jwt', { session: false }),allReacts);
      router.post('/addComment/:UserID/:authorID/:postID',passport.authenticate('jwt', { session: false }),upload.single('comment'),addComment);
      router.patch('/editComment/:commentID',passport.authenticate('jwt', { session: false }),upload.single('comment'),editComment);
      router.delete('/deleteComment/:postID/:commentID',passport.authenticate('jwt', { session: false }),deleteComment);
