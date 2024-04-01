@@ -16,7 +16,7 @@ module.exports = (router,passport) => {
      router.post('/dislike/:postID/:reacterID',passport.authenticate('jwt', { session: false }),dislike);
      router.get('/allReacts/:postID',passport.authenticate('jwt', { session: false }),allReacts);
      router.post('/addComment/:UserID/:authorID/:postID',passport.authenticate('jwt', { session: false }),upload.single('comment'),addComment);
-     router.patch('/editComment/:commentID',passport.authenticate('jwt', { session: false }),upload.single('comment'),editComment);
+     router.patch('/editComment/:UserID/:authorID/:commentID',passport.authenticate('jwt', { session: false }),upload.single('comment'),editComment);
      router.delete('/deleteComment/:postID/:commentID',passport.authenticate('jwt', { session: false }),deleteComment);
      router.put('/updatePost/:PostId/:UserId',passport.authenticate('jwt', { session: false }),upload.single('image'),updatePost);
      router.delete('/deletePost/:PostId/:UserId',passport.authenticate('jwt', { session: false }),deletePost);

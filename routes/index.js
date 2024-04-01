@@ -7,6 +7,8 @@ require('../config/passport');
 const authRoutes = require('./auth')(router, passport);
 const userRoutes=require('./user')(router, passport);
 const postRoutes=require('./post')(router,passport);
+const friendsRoutes=require('./friends')(router,passport);
+
 
 module.exports = (app) => {
     app.use('/', authRoutes);
@@ -20,6 +22,13 @@ module.exports = (app) => {
 module.exports= (app) => {
     app.use('/',postRoutes);
 };
+module.exports= (app) => {
+    app.use('/',postRoutes);
+};
+module.exports= (app) => {
+    app.use('/',friendsRoutes);
+};
+
 
 
 

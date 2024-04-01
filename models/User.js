@@ -44,6 +44,14 @@ const UserSchema = new mongoose.Schema({
 		type: String,
 		default:"https://res.cloudinary.com/dlcrve4vm/image/upload/v1709758933/CloudinaryDemo/w0xmbgz3nj4tu8fyuwam.jpg",
 	},
+	webHookURL:{
+		type: String
+	},
+	friends:{
+		type:Array
+		
+	},
+
 	resetToken: String,
 	resetTokenExpiration: Date,
 });

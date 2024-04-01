@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs');
 const { JsonWebTokenError } = require('jsonwebtoken');
 //const jwtDecode = require("jwt-decode");
 const { jwtDecode } = require('jwt-decode');
+const { response } = require('express');
 
 const register = async (req, res) => {
 	const { firstname, lastname, username, email, password, gender, phone } = req.body;
@@ -38,9 +39,9 @@ const register = async (req, res) => {
 					coverPicture:"https://res.cloudinary.com/dlcrve4vm/image/upload/v1709758933/CloudinaryDemo/w0xmbgz3nj4tu8fyuwam.jpg",
 					token: issueToken(user),
 				};
+				//return response.status(200).json({message:'You are registered successfully',data:responseData});
 
-				return ApiResponse.success(res,responseData,201,'You are registered successfully'
-				);
+				return ApiResponse.success(res,responseData,201,'You are registered successfully');
 			}
 		}
 	);

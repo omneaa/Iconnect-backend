@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Post = require('../models/Post');
 require('dotenv').config();
 const ApiResponse=require('../utils/apiResponse');
 const {storage} = require('../storage/storage');
@@ -74,8 +75,20 @@ let profilePicture=req.user.profilePicture;
 }
 
 
+const userTimeLine = async (req, res) => {
+	try{
+		const {userID}=req.params;
+		const user = await User.findById(userID).populate('friends');
+		const friendIds = user.friends.map(friend => friend._id);
+		const posts = await Post.find({ authorID: { $in: friendIds } });
+	return res.status(200).json({ message: "Time Line", data:posts });
+	}
+	catch(err){
+		return ApiResponse.error(res, 500, 'Internal Server Error');
+	}
+};
 
 
 
 
-module.exports={GetUser,DeleteUser,EditUser,SearchAccount};
+module.exports={GetUser,DeleteUser,EditUser,SearchAccount,userTimeLine};

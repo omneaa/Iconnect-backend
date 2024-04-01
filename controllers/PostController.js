@@ -1,3 +1,6 @@
+const{
+   sendNotification
+}=require('../controllers/SendNotification');
 const ApiResponse=require('../utils/apiResponse');
 const Post=require('../models/Post');
 require('dotenv').config();
@@ -6,7 +9,7 @@ const multer = require('multer');
 const upload = multer({ storage });
 const {mongodb,ObjectId} = require('mongodb');
 const { authorize } = require('passport');
-
+const axios=require('axios');
 
 
 const createPost= async(req,res)=>{
@@ -152,13 +155,13 @@ const editComment=async(req,res)=>{
        const {comment}=req.body;
        const Usercomment=await Post.findByIdAndUpdate(req.params.postID,{$push:{ comments:newComment}},{new:true,"__v":false});
        
+
+
         return res.status(200).json({ message: "comment Added", data:Usercomment});
             }
             catch(err){
                 return ApiResponse.error(res, 500, 'Internal Server Error');
             }
-    
-
         };
 
         /*====================================================*/

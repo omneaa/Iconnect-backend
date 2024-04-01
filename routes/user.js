@@ -1,4 +1,4 @@
-const{GetUser,EditUser,SearchAccount,DeleteUser}=require('../controllers/UserController');
+const{GetUser,EditUser,SearchAccount,DeleteUser,userTimeLine}=require('../controllers/UserController');
 const validateResource = require('../middlewares/validateResource');
 require('dotenv').config();
 const {storage} = require('../storage/storage');
@@ -7,6 +7,7 @@ const upload = multer({ storage });
 
 module.exports = (router, passport) => {
 	
+	router.get('/userTimeLine/:userID',passport.authenticate('jwt', { session: false }),userTimeLine);
 	router.get('/user/:Id',GetUser);
 	router.get('/searchUser/:Name',passport.authenticate('jwt', { session: false }),SearchAccount);
 	router.delete('/user', passport.authenticate('jwt', { session: false }),DeleteUser);
