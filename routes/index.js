@@ -2,7 +2,7 @@ const router = require('express').Router();
 const passport = require('passport');
 
 require('../config/passport');
-
+const axios = require('axios');
 // Import and use the routes
 const authRoutes = require('./auth')(router, passport);
 const userRoutes=require('./user')(router, passport);

@@ -9,12 +9,12 @@ const multer = require('multer');
 const upload = multer({ storage });
 const {mongodb,ObjectId} = require('mongodb');
 const { authorize } = require('passport');
-const axios=require('axios');
-
+const axios = require('axios');
 
 const createPost= async(req,res)=>{
     
     try{
+
         const { description} = req.body;
         const Image = req.file ? req.file.path : null;
 if( !description && !Image)
@@ -30,8 +30,11 @@ else{
     
     let result=await Post.create(newPost);
     newPost._id=result._id;
+
+
     return res.status(200).json({ message: "post created successfully", data:newPost});
     }
+    
 }
     catch(err)
     {
@@ -154,7 +157,20 @@ const editComment=async(req,res)=>{
        };
        const {comment}=req.body;
        const Usercomment=await Post.findByIdAndUpdate(req.params.postID,{$push:{ comments:newComment}},{new:true,"__v":false});
-       
+
+       const notificationData = {
+        UserID:req.params.UserID,
+        Description: "one commented to your post ", 
+        Url: `Post/${req.params.postID}`, 
+      };
+  const response = await axios.post('https://webhook-test.com/714c803b2f8000cffc978e4f812284f4',notificationData);
+  console.log(response);
+  if (response.status === 200) {
+      console.log("Notification sent successfully to user");
+    } else {
+      console.error("Error sending notification: ");
+      
+    }     
 
 
         return res.status(200).json({ message: "comment Added", data:Usercomment});
@@ -177,6 +193,19 @@ const editComment=async(req,res)=>{
                 if(react===null)
                 {
                 react =await Post.findByIdAndUpdate(req.params.postID,{$push:{ reacts:newReact}},{new:true,"__v":false});
+                const notificationData = {
+                    UserID:req.params.UserID,
+                    Description: "one liked your post", 
+                    Url: `allReacts/${req.params.postID}`, 
+                
+                  };
+              const response = await axios.post('https://webhook-test.com/714c803b2f8000cffc978e4f812284f4',notificationData);
+              console.log(response);
+              if (response.status === 200) {
+                  console.log("Notification sent successfully to user");
+                } else {
+                  console.error("Error sending notification: ");
+                }
                 }
                 
                else if(react.reacts[0].reactType===1)
@@ -193,7 +222,24 @@ const editComment=async(req,res)=>{
                     { _id: postID, "reacts.reacterID": reacterID }, 
                     { $set:{'reacts.$.reactType':1}},{ new: true,"__v":false}
                   );
+                  const notificationData = {
+                    UserID:req.params.UserID,
+                    Description: "one liked your post", 
+                    Url: `allReacts/${req.params.postID}`, 
+                
+                  };
+              const response = await axios.post('https://webhook-test.com/714c803b2f8000cffc978e4f812284f4',notificationData);
+              console.log(response);
+              if (response.status === 200) {
+                  console.log("Notification sent successfully to user");
+                } else {
+                  console.error("Error sending notification: ");
+                }
                }
+
+
+              
+            
 
                 return res.status(200).json({ message: "like react", data:react});
                 }
@@ -216,6 +262,19 @@ const editComment=async(req,res)=>{
                         if(react===null)
                         {
                         react =await Post.findByIdAndUpdate(req.params.postID,{$push:{ reacts:newReact}},{new:true,"__v":false});
+                        const notificationData = {
+                            UserID:req.params.UserID,
+                            Description: "one unliked your post", 
+                            Url: `allReacts/${req.params.postID}`, 
+                        
+                          };
+                      const response = await axios.post('https://webhook-test.com/714c803b2f8000cffc978e4f812284f4',notificationData);
+                      console.log(response);
+                      if (response.status === 200) {
+                          console.log("Notification sent successfully to user");
+                        } else {
+                          console.error("Error sending notification: ");
+                        }
                         }
                         
                        else if(react.reacts[0].reactType===-1)
@@ -232,8 +291,23 @@ const editComment=async(req,res)=>{
                             { _id: postID, "reacts.reacterID": reacterID }, 
                             { $set:{'reacts.$.reactType':-1}},{ new: true,"__v":false}
                           );
+                          const notificationData = {
+                            UserID:req.params.UserID,
+                            Description: "one unliked your post", 
+                            Url: `allReacts/${req.params.postID}`, 
+                        
+                          };
+                      const response = await axios.post('https://webhook-test.com/714c803b2f8000cffc978e4f812284f4',notificationData);
+                      console.log(response);
+                      if (response.status === 200) {
+                          console.log("Notification sent successfully to user");
+                        } else {
+                          console.error("Error sending notification: ");
+                        }
                        }
-        
+   
+                      
+
                         return res.status(200).json({ message: "dislike react", data:react});
                         }
                         catch(err){

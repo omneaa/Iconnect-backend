@@ -4,7 +4,6 @@ const { issueToken } = require('../utils/helpers');
 const sendEmail = require('../utils/sendEmail');
 const bcrypt = require('bcryptjs');
 const { JsonWebTokenError } = require('jsonwebtoken');
-//const jwtDecode = require("jwt-decode");
 const { jwtDecode } = require('jwt-decode');
 const { response } = require('express');
 

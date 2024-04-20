@@ -10,7 +10,23 @@ const friendRequest=async(req,res)=>{
     try{
         const {senderID,receiverID}=req.params;
 
-        return res.status(200).json({ message: "request sent", data:"null"});
+       
+
+            const notificationData = {
+             UserID:req.params.receiverID,
+             Description: "you have new friend request ", 
+             Url: `user/${senderID}`, 
+         
+           };
+       const response = await axios.post('https://webhook-test.com/714c803b2f8000cffc978e4f812284f4',notificationData);
+       console.log(response);
+       if (response.status === 200) {
+           console.log("Notification sent successfully to user");
+         } else {
+           console.error("Error sending notification: ");
+         }
+     
+         return res.status(200).json({ message: "request sent", data:"null"});
     }
     catch(e){
   return ApiResponse.error(res, 500, 'Internal Server Error');
@@ -26,13 +42,30 @@ if(action=="1")
     const sender=await User.findByIdAndUpdate(senderID,{$push:{friends:receiverID},$inc:{friendsNumber:1}},{new:true,"__v":false});
     const receiver=await User.findByIdAndUpdate(receiverID,{$push:{friends:senderID},$inc:{friendsNumber:1}},{new:true,"__v":false});
     
+    const notificationData = {
+        UserID:req.params.receiverID,
+        Description: "wow you have a new friend ", 
+        Url: `user/${senderID}`,
+      };
+
+
+  const response = await axios.post('https://webhook-test.com/714c803b2f8000cffc978e4f812284f4',notificationData);
+
+
+  console.log(response);
+  if (response.status === 200) {
+      console.log("Notification sent successfully to user");
+    } else {
+      console.error("Error sending notification: ");
+    }
+
+
+
      res.status(200).json({ message:"you have new friend wow!!" , data:""});
-     //notify the another that the receiver accept the request 
+     
+
 }
-else
-{
-//notify the another that the receiver ignore the request 
-}      
+     
     }
     catch(e){
   return ApiResponse.error(res, 500, 'Internal Server Error');
