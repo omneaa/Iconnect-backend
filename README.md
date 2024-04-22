@@ -1,9 +1,12 @@
 
 Iconnect Project
-Description
+
+Description :-
+
 This is a social media application built with Node.js, Express, and MongoDB.
 
 Features:-
+
 Login and signup ,
 Forgot password ,
 Reset password ,
